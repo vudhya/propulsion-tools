@@ -1,26 +1,3 @@
-# ============================================
-# Day 3 Exercise: Functions — Isentropic Flow
-# ============================================
-# Refactor your isentropic table code into
-# reusable functions. Then use them to solve
-# actual engineering problems.
-# ============================================
-
-# --- Part A: Write the functions ---
-
-# Function 1: isentropic_ratios(M, gamma)
-# Takes: Mach number and gamma
-# Returns: T_ratio, P_ratio, rho_ratio, A_ratio (all four)
-#
-# SYNTAX for returning multiple values:
-#   def my_function(x, y):
-#       a = x + y
-#       b = x * y
-#       return a, b
-#
-# SYNTAX for receiving multiple values:
-#   sum_val, product_val = my_function(3, 4)
-
 def isentropic_ratios(M, gamma):
     term = (1 + (gamma -1)/2 * M**2)
     T_ratio = term**(-1)
@@ -28,37 +5,6 @@ def isentropic_ratios(M, gamma):
     rho_ratio = term**(-1/(gamma-1))
     A_ratio = (1/M) * ((2/(gamma+1)) * term) ** ((gamma+1)/(2*(gamma-1)))
     return T_ratio, P_ratio, rho_ratio, A_ratio
-
-
-    
-
-
-# Function 2: mach_from_area_ratio(A_ratio, gamma, supersonic=False)
-# Takes: A/A* ratio and gamma
-# Returns: the Mach number
-#
-# This is the INVERSE problem — given A/A*, find M.
-# There is no clean algebraic solution, so use ITERATION:
-#
-#   Start with a guess for M (0.01 for subsonic, 1.5 for supersonic)
-#   Compute A/A* for that guess using your function from Part A
-#   If the computed A/A* is too high, adjust M
-#   If too low, adjust the other way
-#   Repeat until the error is small enough (< 0.0001)
-#
-# Use BISECTION METHOD:
-#   - For subsonic: M is between 0.01 and 1.0
-#   - For supersonic: M is between 1.0 and 50.0
-#   - Midpoint: M_mid = (M_low + M_high) / 2
-#   - If A/A* at M_mid is too high → adjust M_low or M_high
-#   - Repeat until |computed_A - target_A| < 0.0001
-#
-# HINT: A/A* DECREASES from M=0 to M=1, then INCREASES from M=1 onward.
-#       So the bisection logic is different for subsonic vs supersonic.
-#
-# This function uses a "default argument": supersonic=False
-# Call it as: mach_from_area_ratio(2.0, 1.4)               → subsonic M
-# Or:         mach_from_area_ratio(2.0, 1.4, supersonic=True) → supersonic M
 
 def mach_from_area_ratio(A_ratio, gamma, supersonic=False):
     if supersonic:
@@ -85,12 +31,6 @@ def mach_from_area_ratio(A_ratio, gamma, supersonic=False):
     return M_mid  # This line is never reached, but it satisfies the function syntax
 print(mach_from_area_ratio(2.0, 1.4))  # Should give subsonic M
 print(mach_from_area_ratio(2.0, 1.4, supersonic=True))  # Should give supersonic M
-
-
-
-
-
-# --- Part B: Use your functions to solve problems ---
 
 gamma = 1.4
 
