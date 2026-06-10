@@ -1,9 +1,6 @@
 # ============================================
 # Day 7 Exercise: SciPy — fsolve and solve_ivp
 # ============================================
-# Replace your manual numerical methods with
-# SciPy, then solve a rocket trajectory ODE.
-# ============================================
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -11,40 +8,16 @@ from scipy.optimize import fsolve
 from scipy.integrate import solve_ivp
 
 # =============================================
-# PART A: fsolve — Replace your bisection method
+# PART A: fsolve — Replacing bisection method
 # =============================================
 
 gamma = 1.4
 
-# Remember Day 3? You wrote a bisection method to find M from A/A*.
-# Now do the same with fsolve.
-#
-# fsolve needs a function that equals ZERO at the solution.
-# If you want A/A*(M) = target, you write:
-#   f(M) = A/A*(M) - target = 0
-#
-# Write a function: area_equation(M, target, gamma)
-# It should return: (computed A/A*) - target
-#
-# Then use fsolve to find M for A/A* = 2.0 (subsonic and supersonic)
-
-# YOUR CODE HERE
-# def area_equation(M, target, gamma):
-#     ...
-#     return computed_A_ratio - target
 def area_equation(M, target, gamma):
     term1 = ((2/(gamma+1)) * (1 + ((gamma-1)/2) * M**2))**((gamma+1)/(2*(gamma-1)))
     computed_A_ratio = (1/M) * term1
     return computed_A_ratio - target
-# For fsolve with extra arguments, use the 'args' parameter:
-#   M_sub = fsolve(area_equation, 0.3, args=(2.0, 1.4))
-#   M_sup = fsolve(area_equation, 2.0, args=(2.0, 1.4))
-#
-# The first argument (0.3 or 2.0) is the initial guess.
-# args=(2.0, 1.4) passes target=2.0 and gamma=1.4 to your function.
 
-# YOUR CODE HERE — solve and print both Mach numbers
-# Verify: subsonic M ≈ 0.3059, supersonic M ≈ 2.1972
 M_sub = fsolve(area_equation, 0.3, args=(2.0, gamma))
 M_sup = fsolve(area_equation, 2.0, args=(2.0, gamma))
 print(f"Subsonic Mach number: {M_sub[0]:.4f}")
@@ -81,36 +54,11 @@ print(f"Supersonic Mach number: {M_sup[0]:.4f}")
 #   thrust = 15000 N (constant during burn)
 #   Cd = 0.5 (drag coefficient)
 #   A = 0.1 m² (cross-section area)
-#   rho_air = 1.225 kg/m³ (assume constant for simplicity)
+#   rho_air = 1.225 kg/m³ 
 #
 # STATE VECTOR:
 #   y = [h, v]  → two variables being solved simultaneously
 #   dydt = [v, (T - m*g - D) / m]
-#
-# STEPS:
-# 1. Define a function: rocket_ode(t, y)
-#    Inside, unpack y: h, v = y[0], y[1]
-#    Compute mass at time t: m = m_initial - m_dot * t (during burn)
-#    After burn: m = m_initial - m_propellant, T = 0
-#    Compute drag: D = 0.5 * Cd * A * rho_air * v * abs(v)
-#      (use v*abs(v) instead of v² so drag opposes motion direction)
-#    Return [dh/dt, dv/dt]
-#
-# 2. Solve with solve_ivp:
-#    solution = solve_ivp(rocket_ode, [0, 200], [0, 0],
-#                         t_eval=np.linspace(0, 200, 1000))
-#    Initial conditions: h=0, v=0 at t=0
-#
-# 3. Plot TWO subplots:
-#    Top: Altitude vs Time
-#    Bottom: Velocity vs Time
-#    Mark t_burn with a vertical dashed line on both plots:
-#      plt.axvline(x=t_burn, color='r', linestyle='--', label='Burnout')
-#
-# 4. Find and print:
-#    - Maximum altitude (apogee) and when it occurs
-#    - Maximum velocity and when it occurs
-#    - Velocity at burnout
 
 # GIVEN VALUES
 m_initial = 500       # kg
@@ -122,28 +70,6 @@ Cd = 0.5
 A = 0.1               # m²
 rho_air = 1.225        # kg/m³
 g = 9.81
-
-# Step 1: Define the ODE function
-# def rocket_ode(t, y):
-#     h = y[0]
-#     v = y[1]
-#     
-#     # Determine if we're in powered or coast phase
-#     if t < t_burn:
-#         T = thrust
-#         m = m_initial - m_dot * t
-#     else:
-#         T = 0
-#         m = m_initial - m_propellant
-#     
-#     # Drag (note: v*abs(v) ensures drag opposes motion)
-#     D = ???
-#     
-#     # Accelerations
-#     dhdt = ???
-#     dvdt = ???
-#     
-#     return [dhdt, dvdt]
 
 def rocket_ode(t, y):
     h = y[0]
@@ -193,7 +119,6 @@ plt.savefig('rocket_trajectory.png', dpi=200)
 plt.show()
 
 # Step 4: Find and print key results
-# Use np.max(), np.argmax() to find peaks
 max_altitude = np.max(h)
 time_of_apogee = t[np.argmax(h)]
 max_velocity = np.max(v)
