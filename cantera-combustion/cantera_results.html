@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Phase 1: Cantera Combustion Analysis Results</title>
+<style>
+body { font-family: Arial, sans-serif; line-height: 1.6; margin: 30px; max-width: 900px; }
+h1, h2, h3 { color: #2c3e50; }
+.result-box { background: #f8f9fa; padding: 15px; border-left: 5px solid #3498db; border-radius: 5px; margin-bottom: 20px;}
+code { background: #eee; padding: 2px 5px; border-radius: 3px; font-family: Consolas, monospace; }
+.plot-img { max-width: 100%; height: auto; border: 1px solid #ccc; margin-top: 15px; }
+</style>
+</head>
+<body>
+
+<h1>Phase 1: Cantera Combustion Analysis Results</h1>
+<p>This document tracks the results and physical explanations for the Cantera exercises we run. Open this in any web browser to review your findings.</p>
+
+<hr>
+
+<h2>Exercise 1: Adiabatic Flame Temperature (Basic)</h2>
+<p><strong>Script</strong>: <code>cantera_01_equilibration.py</code><br>
+<strong>Mixture</strong>: Stoichiometric Methane-Air (&Phi; = 1.0)<br>
+<strong>Initial State</strong>: 300 K, 1 atm</p>
+
+<div class="result-box">
+<h3>Results</h3>
+<ul>
+<li><strong>Adiabatic Flame Temperature</strong>: 2225.52 K</li>
+<li><strong>Major Products</strong>: H<sub>2</sub>O (18.3%), N<sub>2</sub> (70.8%), CO<sub>2</sub> (8.5%)</li>
+<li><strong>Minor/Dissociated Products</strong>: CO (0.89%), O<sub>2</sub> (0.46%), H<sub>2</sub> (0.36%), OH (0.28%), NO (0.18%)</li>
+</ul>
+</div>
+
+<h3>Physical Explanation</h3>
+<p>When we burned a perfect stoichiometric mixture of Methane and Air at constant pressure and enthalpy, the temperature rose to <strong>2225 K</strong>.</p>
+<p>However, notice the minor products. Simple chemistry tells us that CH<sub>4</sub> + Air only produces CO<sub>2</sub>, H<sub>2</sub>O, and N<sub>2</sub>. But at 2225 K, the thermal energy is so incredibly high that molecules begin to <strong>dissociate</strong> (break apart). For example, some CO<sub>2</sub> breaks down into CO and O.</p>
+<p>This dissociation process is <strong>endothermic</strong> (it absorbs heat). Because energy is "stolen" to break these molecular bonds, the final flame temperature is actually lower than what a simple, ideal mathematical energy balance would predict. Cantera figures this out automatically by minimizing the Gibbs free energy of the entire mixture to find the true chemical equilibrium.</p>
+<p>Additionally, at these extreme temperatures, the usually inert Nitrogen (N<sub>2</sub>) in the air begins to react with Oxygen to form Nitric Oxide (NO), which is the primary source of NOx pollution in gas turbines and engines.</p>
+
+<hr>
+
+<h2>Exercise 2: Adiabatic Flame Temperature vs Equivalence Ratio</h2>
+<p><strong>Script</strong>: <code>cantera_02_parametric.py</code><br>
+<strong>Mixture</strong>: Methane-Air Sweep (&Phi; = 0.5 to 2.0)<br>
+<strong>Initial State</strong>: 300 K, 1 atm</p>
+
+<div class="result-box">
+<h3>Results</h3>
+<p>The flame temperature peaks at roughly 2227 K, but noticeably, the peak does <strong>not</strong> occur at exactly &Phi; = 1.0. It peaks slightly on the rich side (around &Phi; = 1.05).</p>
+<img src="aft_vs_phi.png" alt="AFT vs Equivalence Ratio" class="plot-img">
+</div>
+
+<h3>Physical Explanation</h3>
+<p>Intuitively, you might expect the hottest flame to occur at a perfectly stoichiometric ratio (&Phi; = 1.0), because there is exactly enough oxygen to burn all the fuel. Why does it peak slightly rich?</p>
+<p>Because of <strong>dissociation</strong>. At &Phi; = 1.0, the temperatures are extremely high. The combustion products (like CO<sub>2</sub> and H<sub>2</sub>O) begin to dissociate endothermically into CO, OH, H, and O. This dissociation process absorbs thermal energy, capping the peak temperature.</p>
+<p>When the mixture is made slightly fuel-rich (&Phi; ~ 1.05), the lack of excess oxygen inherently suppresses the dissociation of CO<sub>2</sub> into CO and O (due to Le Chatelier's principle and oxygen scarcity). Because less energy is "wasted" on dissociation, more of it remains as sensible thermal energy, driving the overall mixture temperature slightly higher than the stoichiometric case.</p>
+<p>If you keep adding fuel past &Phi; ~ 1.05, the unburned fuel simply acts as a thermal mass (a heat sink), dropping the temperature rapidly on the rich side. On the lean side (&Phi; < 1.0), the excess oxygen and nitrogen act as heat sinks, dropping the temperature there as well.</p>
+
+</body>
+</html>
