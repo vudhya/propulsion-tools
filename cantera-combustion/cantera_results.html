@@ -96,5 +96,28 @@ code { background: #eee; padding: 2px 5px; border-radius: 3px; font-family: Cons
 <p>During the first 1.1 seconds, the methane slowly breaks down. This is called the <strong>radical buildup phase</strong>. Trace amounts of highly reactive free radicals (like O, H, and OH) are generated. This slow reaction generates a tiny amount of heat, which is why the temperature plot curves slightly upward just before the explosion.</p>
 <p>Once the concentration of these free radicals reaches a critical threshold, <strong>chain-branching reactions</strong> take over. These reactions produce more radicals than they consume, leading to an exponential, uncontrollable reaction rate. This is the vertical line on the plot&mdash;a thermal explosion. The time from t=0 to this explosion is the <strong>Ignition Delay Time</strong>, a critical design parameter for scramjets, diesel engines, and rocket injectors to prevent flame blowout or hard starts.</p>
 
+<hr>
+
+<h2>Exercise 5: 1D Laminar Flame Speed</h2>
+<p><strong>Script</strong>: <code>cantera_05_flame_speed.py</code><br>
+<strong>Mixture</strong>: Stoichiometric Methane-Air (&Phi; = 1.0)<br>
+<strong>Domain</strong>: 1D Freely Propagating Flame (3 cm width)</p>
+
+<div class="result-box">
+<h3>Results</h3>
+<p><strong>Laminar Flame Speed (S<sub>u</sub>)</strong>: 38.09 cm/s</p>
+<img src="flame_profile.png" alt="Laminar Flame Profile" class="plot-img">
+</div>
+
+<h3>Physical Explanation</h3>
+<p>This exercise simulates a 1D flame front. Unburned gas enters from the left (x=0) at exactly 38.09 cm/s. Because the gas enters at this specific speed, the flame front remains perfectly stationary in the middle of the domain.</p>
+<p>The temperature profile is divided into three distinct zones:</p>
+<ol>
+<li><strong>Pre-heat Zone (0 to ~2 cm):</strong> The unburned gas enters at 300 K. As it approaches the flame, thermal conduction from the hot flame front heats it up. No significant chemistry happens here yet.</li>
+<li><strong>Reaction Zone (The vertical spike):</strong> This is the actual flame front. It is incredibly thin (a fraction of a millimeter). Here, the temperature reaches the ignition point, and chain-branching chemical kinetics cause an explosive release of heat, driving the temperature up to ~2225 K instantly.</li>
+<li><strong>Post-flame Zone (> 2.1 cm):</strong> The gas is now fully burned and consists of equilibrium products (CO<sub>2</sub>, H<sub>2</sub>O, N<sub>2</sub>, and dissociated radicals). The temperature remains flat at the Adiabatic Flame Temperature.</li>
+</ol>
+<p><strong>Note on the Solver:</strong> Solving this requires balancing massive temperature gradients. Cantera starts with a very coarse grid (e.g., 6 points) and attempts to solve the differential equations. As it solves, it automatically adds grid points (refining the mesh) specifically at the reaction zone where the curve is steep. The message <em>"Problem solved on [196] point grid(s)"</em> means it successfully converged after progressively adding points until it had a high-resolution grid of 196 points across the 3 cm domain.</p>
+
 </body>
 </html>
