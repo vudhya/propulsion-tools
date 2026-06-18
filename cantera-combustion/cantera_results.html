@@ -119,5 +119,23 @@ code { background: #eee; padding: 2px 5px; border-radius: 3px; font-family: Cons
 </ol>
 <p><strong>Note on the Solver:</strong> Solving this requires balancing massive temperature gradients. Cantera starts with a very coarse grid (e.g., 6 points) and attempts to solve the differential equations. As it solves, it automatically adds grid points (refining the mesh) specifically at the reaction zone where the curve is steep. The message <em>"Problem solved on [196] point grid(s)"</em> means it successfully converged after progressively adding points until it had a high-resolution grid of 196 points across the 3 cm domain.</p>
 
+<hr>
+
+<h2>Exercise 6: Species Dissociation Curve</h2>
+<p><strong>Script</strong>: <code>cantera_06_dissociation.py</code><br>
+<strong>Mixture</strong>: Stoichiometric Methane-Air (&Phi; = 1.0)<br>
+<strong>Domain</strong>: Constant Temperature and Pressure Equilibration (TP)</p>
+
+<div class="result-box">
+<h3>Results</h3>
+<p>The plot visually proves that at extremely high temperatures, combustion products break down.</p>
+<img src="dissociation.png" alt="Dissociation Plot" class="plot-img">
+</div>
+
+<h3>Physical Explanation</h3>
+<p>In elementary chemistry, burning methane produces only CO<sub>2</sub> and H<sub>2</sub>O. Looking at the plot, this holds true at 1000 K: the CO<sub>2</sub> fraction is high, and CO and OH are virtually zero.</p>
+<p>However, once the temperature crosses ~2000 K, the thermal energy of the molecules is so violent that the chemical bonds holding CO<sub>2</sub> together are ripped apart. You can clearly see the CO<sub>2</sub> curve plummeting, while the CO and OH curves rise rapidly to take its place. By the time the mixture reaches 2800 K, there is actually more CO in the mixture than CO<sub>2</sub>!</p>
+<p>This dissociation process is highly endothermic. This is exactly why the Adiabatic Flame Temperature in Exercise 2 was artificially capped around 2225 K. Any extra energy added to the system is spent tearing molecules apart rather than raising the temperature.</p>
+
 </body>
 </html>
