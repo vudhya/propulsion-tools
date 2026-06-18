@@ -77,5 +77,24 @@ code { background: #eee; padding: 2px 5px; border-radius: 3px; font-family: Cons
 <p>To generate thrust, this hot gas is accelerated through a converging-diverging nozzle. In an ideal nozzle, this expansion process is extremely fast and perfectly efficient, meaning it is adiabatic and reversible. In thermodynamics, this is an <strong>Isentropic</strong> process (constant entropy). We expand the gas to Sea Level pressure (1 bar) while holding the entropy and pressure constant (SP equilibration).</p>
 <p>By conservation of energy, the massive drop in the fluid's enthalpy (&Delta;h) as it cools from 3850 K to 2166 K is converted directly into kinetic energy (0.5 * V<sup>2</sup>), resulting in an exhaust velocity of nearly Mach 10 (3465 m/s) and a theoretical Sea Level Specific Impulse of 353 seconds.</p>
 
+<hr>
+
+<h2>Exercise 4: Ignition Delay Time (Chemical Kinetics)</h2>
+<p><strong>Script</strong>: <code>cantera_04_ignition_delay.py</code><br>
+<strong>Mixture</strong>: Stoichiometric Methane-Air (&Phi; = 1.0)<br>
+<strong>Initial State</strong>: 1000 K, 1 atm<br>
+<strong>Reactor Type</strong>: IdealGasConstPressureReactor</p>
+
+<div class="result-box">
+<h3>Results</h3>
+<p>The mixture does not ignite instantly. Instead, there is a distinct delay of approximately 1.1 seconds where the temperature slowly creeps up, followed by an instantaneous thermal runaway where the temperature spikes to over 2500 K.</p>
+<img src="ignition_delay.png" alt="Ignition Delay Plot" class="plot-img">
+</div>
+
+<h3>Physical Explanation</h3>
+<p>Unlike chemical equilibrium, which assumes infinite time to react, this exercise simulates finite-rate chemical kinetics over time. When a mixture of methane and air is heated to 1000 K, it does not explode immediately because Methane (CH<sub>4</sub>) is a highly stable molecule.</p>
+<p>During the first 1.1 seconds, the methane slowly breaks down. This is called the <strong>radical buildup phase</strong>. Trace amounts of highly reactive free radicals (like O, H, and OH) are generated. This slow reaction generates a tiny amount of heat, which is why the temperature plot curves slightly upward just before the explosion.</p>
+<p>Once the concentration of these free radicals reaches a critical threshold, <strong>chain-branching reactions</strong> take over. These reactions produce more radicals than they consume, leading to an exponential, uncontrollable reaction rate. This is the vertical line on the plot&mdash;a thermal explosion. The time from t=0 to this explosion is the <strong>Ignition Delay Time</strong>, a critical design parameter for scramjets, diesel engines, and rocket injectors to prevent flame blowout or hard starts.</p>
+
 </body>
 </html>
