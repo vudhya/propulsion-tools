@@ -35,7 +35,6 @@ code { background: #eee; padding: 2px 5px; border-radius: 3px; font-family: Cons
 <p>When we burned a perfect stoichiometric mixture of Methane and Air at constant pressure and enthalpy, the temperature rose to <strong>2225 K</strong>.</p>
 <p>However, notice the minor products. Simple chemistry tells us that CH<sub>4</sub> + Air only produces CO<sub>2</sub>, H<sub>2</sub>O, and N<sub>2</sub>. But at 2225 K, the thermal energy is so incredibly high that molecules begin to <strong>dissociate</strong> (break apart). For example, some CO<sub>2</sub> breaks down into CO and O.</p>
 <p>This dissociation process is <strong>endothermic</strong> (it absorbs heat). Because energy is "stolen" to break these molecular bonds, the final flame temperature is actually lower than what a simple, ideal mathematical energy balance would predict. Cantera figures this out automatically by minimizing the Gibbs free energy of the entire mixture to find the true chemical equilibrium.</p>
-<p>Additionally, at these extreme temperatures, the usually inert Nitrogen (N<sub>2</sub>) in the air begins to react with Oxygen to form Nitric Oxide (NO), which is the primary source of NOx pollution in gas turbines and engines.</p>
 
 <hr>
 
@@ -54,7 +53,29 @@ code { background: #eee; padding: 2px 5px; border-radius: 3px; font-family: Cons
 <p>Intuitively, you might expect the hottest flame to occur at a perfectly stoichiometric ratio (&Phi; = 1.0), because there is exactly enough oxygen to burn all the fuel. Why does it peak slightly rich?</p>
 <p>Because of <strong>dissociation</strong>. At &Phi; = 1.0, the temperatures are extremely high. The combustion products (like CO<sub>2</sub> and H<sub>2</sub>O) begin to dissociate endothermically into CO, OH, H, and O. This dissociation process absorbs thermal energy, capping the peak temperature.</p>
 <p>When the mixture is made slightly fuel-rich (&Phi; ~ 1.05), the lack of excess oxygen inherently suppresses the dissociation of CO<sub>2</sub> into CO and O (due to Le Chatelier's principle and oxygen scarcity). Because less energy is "wasted" on dissociation, more of it remains as sensible thermal energy, driving the overall mixture temperature slightly higher than the stoichiometric case.</p>
-<p>If you keep adding fuel past &Phi; ~ 1.05, the unburned fuel simply acts as a thermal mass (a heat sink), dropping the temperature rapidly on the rich side. On the lean side (&Phi; < 1.0), the excess oxygen and nitrogen act as heat sinks, dropping the temperature there as well.</p>
+
+<hr>
+
+<h2>Exercise 3: Rocket Engine Specific Impulse</h2>
+<p><strong>Script</strong>: <code>cantera_03_rocket_isp.py</code><br>
+<strong>Mixture</strong>: Liquid Oxygen (LOX) / Methane (O/F = 3.6)<br>
+<strong>Chamber State</strong>: 300 bar, HP Equilibration<br>
+<strong>Exit State</strong>: 1 bar, SP Equilibration</p>
+
+<div class="result-box">
+<h3>Results</h3>
+<ul>
+<li><strong>Chamber Temperature (Tc)</strong>: 3849.09 K</li>
+<li><strong>Exit Temperature (Te)</strong>: 2166.40 K</li>
+<li><strong>Exhaust Velocity (V_exit)</strong>: 3465.20 m/s</li>
+<li><strong>Specific Impulse (Isp)</strong>: 353.23 s</li>
+</ul>
+</div>
+
+<h3>Physical Explanation</h3>
+<p>This exercise simulates the theoretical performance of a modern staged-combustion rocket engine like the SpaceX Raptor. In the combustion chamber, the propellants burn at constant enthalpy and pressure (HP equilibration), reaching an extreme temperature of roughly 3850 K.</p>
+<p>To generate thrust, this hot gas is accelerated through a converging-diverging nozzle. In an ideal nozzle, this expansion process is extremely fast and perfectly efficient, meaning it is adiabatic and reversible. In thermodynamics, this is an <strong>Isentropic</strong> process (constant entropy). We expand the gas to Sea Level pressure (1 bar) while holding the entropy and pressure constant (SP equilibration).</p>
+<p>By conservation of energy, the massive drop in the fluid's enthalpy (&Delta;h) as it cools from 3850 K to 2166 K is converted directly into kinetic energy (0.5 * V<sup>2</sup>), resulting in an exhaust velocity of nearly Mach 10 (3465 m/s) and a theoretical Sea Level Specific Impulse of 353 seconds.</p>
 
 </body>
 </html>
