@@ -155,5 +155,23 @@ code { background: #eee; padding: 2px 5px; border-radius: 3px; font-family: Cons
 <p>This is one of the most important plots in combustion engineering. The slope of this exact line represents the <strong>Global Activation Energy (E<sub>a</sub>)</strong> of the fuel. By calculating this line, engineers can predict exactly how fast a fuel will ignite at any arbitrary temperature without having to run a full kinetic simulation every time.</p>
 <p>Notice the scale of the y-axis: At 1000 K (x=1.0), the delay is around 1 second (10<sup>0</sup>). But at 1500 K (x=0.66), the delay drops to less than a millisecond (10<sup>-3</sup>). A 500-degree difference speeds up the reaction by a factor of 1000!</p>
 
+<hr>
+
+<h2>Exercise 8: Counterflow Diffusion Flame (Non-Premixed)</h2>
+<p><strong>Script</strong>: <code>cantera_08_diffusion.py</code><br>
+<strong>Mixture</strong>: Pure Methane vs. Pure Oxygen<br>
+<strong>Domain</strong>: 1D Counterflow (2 cm gap between injectors)</p>
+
+<div class="result-box">
+<h3>Results</h3>
+<p>The plot reveals a stationary diffusion flame suspended in mid-air between the two injectors.</p>
+<img src="diffusion_flame.png" alt="Diffusion Flame Plot" class="plot-img">
+</div>
+
+<h3>Physical Explanation</h3>
+<p>Unlike Exercise 5 where the fuel and air were perfectly mixed beforehand, this exercise mimics a real rocket engine injector. Pure Methane is injected from the left (0 cm) and pure Oxygen is injected from the right (2 cm). Both gases enter cold at 300 K.</p>
+<p>As the gases flow toward the center, they crash into each other and begin to diffuse (mix). A flame naturally forms at the exact physical location where the ratio of fuel to oxidizer is chemically perfect (the stoichiometric surface). In this case, because we are burning pure oxygen rather than air, the peak temperature reaches nearly 3000 K!</p>
+<p>Notice that the peak temperature isn't exactly in the dead-center (1.0 cm). It sits slightly to the right (around 1.15 cm). This is because it takes 2 molecules of O<sub>2</sub> to burn 1 molecule of CH<sub>4</sub>, so the stoichiometric surface shifts toward the oxygen side to balance the mass fluxes. This concept is the foundation for designing injector faceplates in liquid rocket engines.</p>
+
 </body>
 </html>
