@@ -137,5 +137,23 @@ code { background: #eee; padding: 2px 5px; border-radius: 3px; font-family: Cons
 <p>However, once the temperature crosses ~2000 K, the thermal energy of the molecules is so violent that the chemical bonds holding CO<sub>2</sub> together are ripped apart. You can clearly see the CO<sub>2</sub> curve plummeting, while the CO and OH curves rise rapidly to take its place. By the time the mixture reaches 2800 K, there is actually more CO in the mixture than CO<sub>2</sub>!</p>
 <p>This dissociation process is highly endothermic. This is exactly why the Adiabatic Flame Temperature in Exercise 2 was artificially capped around 2225 K. Any extra energy added to the system is spent tearing molecules apart rather than raising the temperature.</p>
 
+<hr>
+
+<h2>Exercise 7: The Arrhenius Curve (Ignition Delay vs Temperature)</h2>
+<p><strong>Script</strong>: <code>cantera_07_arrhenius.py</code><br>
+<strong>Mixture</strong>: Stoichiometric Methane-Air (&Phi; = 1.0)<br>
+<strong>Domain</strong>: 0D Reactor Time Integration across Temperatures (1000 K - 1500 K)</p>
+
+<div class="result-box">
+<h3>Results</h3>
+<p>The plot reveals a perfectly straight diagonal line when plotting log(Ignition Delay) against Inverse Temperature (1000/T).</p>
+<img src="arrhenius.png" alt="Arrhenius Plot" class="plot-img">
+</div>
+
+<h3>Physical Explanation</h3>
+<p>The Arrhenius equation governs the rate of chemical reactions: <em>k = A * exp(-E<sub>a</sub>/RT)</em>. Because ignition delay is inversely proportional to the reaction rate, plotting the logarithm of the delay against 1/T yields a straight line.</p>
+<p>This is one of the most important plots in combustion engineering. The slope of this exact line represents the <strong>Global Activation Energy (E<sub>a</sub>)</strong> of the fuel. By calculating this line, engineers can predict exactly how fast a fuel will ignite at any arbitrary temperature without having to run a full kinetic simulation every time.</p>
+<p>Notice the scale of the y-axis: At 1000 K (x=1.0), the delay is around 1 second (10<sup>0</sup>). But at 1500 K (x=0.66), the delay drops to less than a millisecond (10<sup>-3</sup>). A 500-degree difference speeds up the reaction by a factor of 1000!</p>
+
 </body>
 </html>
